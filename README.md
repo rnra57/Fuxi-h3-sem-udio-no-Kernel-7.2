@@ -33,3 +33,37 @@ git clone [https://github.com/seu-usuario/havit-fuxi-h3-fix.git](https://github.
 cd havit-fuxi-h3-fix
 chmod +x install.sh uninstall.sh
 sudo ./install.sh
+```
+
+O script irá:
+
+    Criar a regra persistente no Udev (/etc/udev/rules.d/99-havit-fuxi-fix.rules).
+
+    Recarregar o subsistema udevadm.
+
+    Aplicar imediatamente o ajuste no mixer ALSA se o headset estiver conectado.
+
+⚙️ Teste Manual / Diagnóstico
+
+Se preferir testar a correção manualmente no terminal antes de instalar:
+Bash
+
+# Verificar se o cartão ALSA foi identificado como FuxiH3
+aplay -l | grep -i "Fuxi"
+
+# Aplicar a correção do registro de hardware diretamente
+amixer -c FuxiH3 cset numid=10 100
+
+# Testar a saída de áudio
+speaker-test -D plughw:FuxiH3,0 -c 2 -t wav
+
+🗑️ Desinstalação
+
+Para remover a regra udev e restaurar o estado original do sistema:
+Bash
+
+sudo ./uninstall.sh
+
+📄 Licença
+
+Este projeto está licenciado sob a licença MIT.
